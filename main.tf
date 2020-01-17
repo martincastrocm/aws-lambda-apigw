@@ -31,10 +31,10 @@ module "lambda_2" {
     api_gateway_id                  = aws_api_gateway_rest_api.first_api_gateway.id
     api_gateway_root_resource_id    = aws_api_gateway_rest_api.first_api_gateway.root_resource_id
     #resource_path                   = "second"
-    request_method                  = "GET"
+    request_method                  = "POST"
     #authorizer_id                   = aws_api_gateway_authorizer.first_api_gateway_authorizer.id
-    api_gateway_resource_id         = aws_api_gateway_resource.api_gateway_resource_lambda_2.id
-    api_gateway_resource_path       = aws_api_gateway_resource.api_gateway_resource_lambda_2.path
+    api_gateway_resource_id         = module.lambda.aws_api_gateway_resource_id
+    api_gateway_resource_path       = module.lambda.aws_api_gateway_resource_path
     stage_name                      = "dev"
     region                          = var.region
     account_id                      = var.accountId
@@ -99,9 +99,9 @@ resource "aws_api_gateway_authorizer" "first_api_gateway_authorizer" {
   provider_arns     = [var.user_pool_arn]
 }
 
-resource "aws_api_gateway_resource" "api_gateway_resource_lambda_2" {
- 
-  rest_api_id =  aws_api_gateway_rest_api.first_api_gateway.id
-  parent_id   =  aws_api_gateway_rest_api.first_api_gateway.root_resource_id
-  path_part   =  "third"
-}
+#resource "aws_api_gateway_resource" "api_gateway_resource_lambda_2" {
+# 
+#  rest_api_id =  aws_api_gateway_rest_api.first_api_gateway.id
+#  parent_id   =  aws_api_gateway_rest_api.first_api_gateway.root_resource_id
+#  path_part   =  "third"
+#}

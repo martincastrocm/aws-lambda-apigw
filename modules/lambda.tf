@@ -48,8 +48,7 @@ resource "aws_iam_role_policy_attachment" "lambda_iam_role_policy_attachment" {
 
 ## Lambda
 resource "aws_lambda_permission" "lambda_permission" {
-  #depends_on = [aws_api_gateway_resource.api_gateway_resource]
-  
+
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda.function_name
