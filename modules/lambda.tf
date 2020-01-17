@@ -48,11 +48,13 @@ resource "aws_iam_role_policy_attachment" "lambda_iam_role_policy_attachment" {
 
 ## Lambda
 resource "aws_lambda_permission" "lambda_permission" {
+  #depends_on = [aws_api_gateway_resource.api_gateway_resource]
+  
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda.function_name
   principal     = "apigateway.amazonaws.com"
 
   # More: http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
-  source_arn = "arn:aws:execute-api:${var.region}:${var.account_id}:${var.api_gateway_id}/*/${var.request_method}${aws_api_gateway_resource.api_gateway_resource.path}"
+  source_arn = "arn:aws:execute-api:${var.region}:${var.account_id}:${var.api_gateway_id}/*/${var.request_method}${length(var.api_gateway_resource_path) == 0 ? aws_api_gateway_resource.api_gateway_resource[0].path : var.api_gateway_resource_path}"
 }

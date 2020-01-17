@@ -15,10 +15,31 @@ module "lambda" {
     authorizer_id                   = aws_api_gateway_authorizer.first_api_gateway_authorizer.id
     stage_name                      = "dev"
     region                          = var.region
-    account_id                      =var.accountId
+    account_id                      = var.accountId
 
 }
 
+module "lambda_2" {
+    source  = "./modules"
+
+    lambda_function_name            = "${var.project}-${var.stage}-second-lambda"
+    lambda_code_path                = "../lambdas/helloWorld"
+    lambda_handler                  = "lambda_function.lambda_handler"
+    lambda_runtime                  = "python3.8"
+    lambda_policy_arn               = [aws_iam_policy.iampolicy_first_lambda.arn, aws_iam_policy.iampolicy_second_lambda.arn] 
+
+    api_gateway_id                  = aws_api_gateway_rest_api.first_api_gateway.id
+    api_gateway_root_resource_id    = aws_api_gateway_rest_api.first_api_gateway.root_resource_id
+    #resource_path                   = "second"
+    request_method                  = "GET"
+    #authorizer_id                   = aws_api_gateway_authorizer.first_api_gateway_authorizer.id
+    api_gateway_resource_id         = aws_api_gateway_resource.api_gateway_resource_lambda_2.id
+    api_gateway_resource_path       = aws_api_gateway_resource.api_gateway_resource_lambda_2.path
+    stage_name                      = "dev"
+    region                          = var.region
+    account_id                      = var.accountId
+
+}
 
 resource "aws_iam_policy" "iampolicy_first_lambda" {
   name        = "${var.project}-${var.stage}-first-lambda-policy"
@@ -76,4 +97,11 @@ resource "aws_api_gateway_authorizer" "first_api_gateway_authorizer" {
   rest_api_id       = aws_api_gateway_rest_api.first_api_gateway.id
   type              = "COGNITO_USER_POOLS"
   provider_arns     = [var.user_pool_arn]
+}
+
+resource "aws_api_gateway_resource" "api_gateway_resource_lambda_2" {
+ 
+  rest_api_id =  aws_api_gateway_rest_api.first_api_gateway.id
+  parent_id   =  aws_api_gateway_rest_api.first_api_gateway.root_resource_id
+  path_part   =  "third"
 }
