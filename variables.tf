@@ -91,6 +91,10 @@ variable "tags" {
 # -----------------------------------------------------------------------------
 # Variables: CORS-related
 # -----------------------------------------------------------------------------
+variable "cors_enable" {
+  type    = bool
+  default = false
+}
 
 # var.allow_headers
 variable "allow_headers" {
