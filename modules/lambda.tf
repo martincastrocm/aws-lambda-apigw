@@ -12,6 +12,14 @@ resource "aws_lambda_function" "lambda" {
   description       = var.lambda_description
   handler           = var.lambda_handler
   runtime           = var.lambda_runtime
+  tags              = var.tags
+  
+  dynamic "environment" {
+    for_each = var.environment == null ? [] : [var.environment]
+    content {
+      variables = environment.value.variables
+    }
+  }
 }
 
 resource "aws_cloudwatch_log_group" "lambda_cwgroup" {

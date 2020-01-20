@@ -33,5 +33,5 @@ variable "name_authorizer" {
 
 variable "user_pool_arn" {
   type      = string
-  default   = "arn:aws:cognito-idp:us-east-1:785718762035:userpool/us-east-1_8iZdKn4Ii"       #"arn:aws:cognito-idp:us-east-1:785718762035:userpool/us-east-1_Dp4YmwHBu"
+  default   = "arn:aws:cognito-idp:us-east-1:785718762035:userpool/us-east-1_ibrZjqUad"       #"arn:aws:cognito-idp:us-east-1:785718762035:userpool/us-east-1_Dp4YmwHBu"
 }
