@@ -56,6 +56,7 @@ resource "aws_iam_role_policy_attachment" "lambda_iam_role_policy_attachment" {
 
 ## Lambda
 resource "aws_lambda_permission" "lambda_permission" {
+  count = length(var.api_gateway_id) > 0 ? 1 : 0  
 
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"

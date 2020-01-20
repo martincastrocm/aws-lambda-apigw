@@ -26,10 +26,12 @@ variable "lambda_policy_arn" {
 
 variable "api_gateway_id" {
   description   = "The id of the api gateway resource"
+  default       = ""
 }
 
 variable "api_gateway_root_resource_id" {
   description   = "The parent resource id of the api gateway"  
+  default       = ""
 }
 
 variable "resource_path" {
@@ -39,6 +41,7 @@ variable "resource_path" {
 
 variable "request_method" {
   description    = "The http request method, e.g: GET"
+  default        = "GET"
 }
 
 variable "authorizer_id" {
@@ -48,6 +51,7 @@ variable "authorizer_id" {
 
 variable "stage_name" {
   description     = "The name of the stage to be deployed"
+  default         = "dev"
 }
 
 variable "region" {

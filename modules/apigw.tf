@@ -1,5 +1,5 @@
 resource "aws_api_gateway_resource" "api_gateway_resource" {
-  count = var.api_gateway_resource_id == "" ? 1 : 0
+  count =  length(var.api_gateway_id) > 0  && var.api_gateway_resource_id == "" ? 1 : 0
   
   rest_api_id =  var.api_gateway_id
   parent_id   =  var.api_gateway_root_resource_id
@@ -7,6 +7,7 @@ resource "aws_api_gateway_resource" "api_gateway_resource" {
 }
 
 resource "aws_api_gateway_method" "api_gateway_method" {
+  count = length(var.api_gateway_id) > 0 ? 1 : 0
 
   rest_api_id   = var.api_gateway_id
   resource_id   = length(var.api_gateway_resource_id) == 0 ? aws_api_gateway_resource.api_gateway_resource[0].id : var.api_gateway_resource_id
@@ -16,6 +17,7 @@ resource "aws_api_gateway_method" "api_gateway_method" {
 }
 
 resource "aws_api_gateway_integration" "integration" {
+  count = length(var.api_gateway_id) > 0 ? 1 : 0
 
   rest_api_id             = var.api_gateway_id
   resource_id             = length(var.api_gateway_resource_id) == 0 ? aws_api_gateway_resource.api_gateway_resource[0].id : var.api_gateway_resource_id
@@ -26,6 +28,7 @@ resource "aws_api_gateway_integration" "integration" {
 }
 
 resource "aws_api_gateway_deployment" "api_gateway_deployment" {
+  count = length(var.api_gateway_id) > 0 ? 1 : 0
   depends_on = [aws_api_gateway_integration.integration]
 
   rest_api_id = var.api_gateway_id
@@ -36,7 +39,7 @@ resource "aws_api_gateway_deployment" "api_gateway_deployment" {
 ## adding CORs support ##
 
 resource "aws_api_gateway_method" "cors_method" {
-  count = length(var.api_gateway_resource_id) == 0 ? 1 : 0
+  count =  length(var.api_gateway_id) > 0  && length(var.api_gateway_resource_id) == 0 ? 1 : 0
 
   rest_api_id   = var.api_gateway_id
   resource_id   = aws_api_gateway_resource.api_gateway_resource[0].id
@@ -46,7 +49,7 @@ resource "aws_api_gateway_method" "cors_method" {
 
 # aws_api_gateway_integration.
 resource "aws_api_gateway_integration" "cors_integration" {
-  count = length(var.api_gateway_resource_id) == 0 ? 1 : 0
+  count =  length(var.api_gateway_id) > 0  && length(var.api_gateway_resource_id) == 0 ? 1 : 0
 
   rest_api_id = var.api_gateway_id
   resource_id = aws_api_gateway_resource.api_gateway_resource[0].id
@@ -61,7 +64,7 @@ resource "aws_api_gateway_integration" "cors_integration" {
 
 # aws_api_gateway_integration_response._
 resource "aws_api_gateway_integration_response" "cors_response" {
-  count = length(var.api_gateway_resource_id) == 0 ? 1 : 0
+  count =  length(var.api_gateway_id) > 0  && length(var.api_gateway_resource_id) == 0 ? 1 : 0
 
   rest_api_id = var.api_gateway_id
   resource_id = aws_api_gateway_resource.api_gateway_resource[0].id
@@ -75,7 +78,7 @@ resource "aws_api_gateway_integration_response" "cors_response" {
 
 # aws_api_gateway_method_response._
 resource "aws_api_gateway_method_response" "cors_method_response" {
-  count = length(var.api_gateway_resource_id) == 0 ? 1 : 0
+  count =  length(var.api_gateway_id) > 0  && length(var.api_gateway_resource_id) == 0 ? 1 : 0
 
   rest_api_id = var.api_gateway_id
   resource_id = aws_api_gateway_resource.api_gateway_resource[0].id
