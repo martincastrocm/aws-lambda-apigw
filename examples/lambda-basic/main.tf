@@ -1,7 +1,7 @@
 
 module "lambda_1" {
-    source  = "../../"
-
+    source  = "git::https://github.com/martincastrocm/aws-lambda-apigw"
+    
     lambda_function_name            = "${var.project}-${var.stage}-first-lambda"
     lambda_code_path                = "../helloWorld"   # set this path to your lambda code path
     lambda_handler                  = "lambda_function.lambda_handler"

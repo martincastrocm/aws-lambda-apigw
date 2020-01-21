@@ -5,7 +5,7 @@ An AWS lambda module that allows API gateway rest API integration
 
 ```hcl
 module "lambda_1" {
-    source  = "../../"
+    source  = "git::https://github.com/martincastrocm/aws-lambda-apigw"
 
     lambda_function_name            = "first-lambda"
     lambda_code_path                = "../helloWorld"   

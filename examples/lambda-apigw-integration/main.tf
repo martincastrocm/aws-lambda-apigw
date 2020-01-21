@@ -1,6 +1,6 @@
 
 module "lambda_2" {
-    source  = "../../"
+    source  = "git::https://github.com/martincastrocm/aws-lambda-apigw"
 
     lambda_function_name            = "${var.project}-${var.stage}-second-lambda"
     lambda_code_path                = "../helloWorld"
